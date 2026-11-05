@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<title>هنايا لاين | HANAYA LINE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['"IBM Plex Sans Arabic"','sans-serif'],brand:['Amiri','serif']},
+colors:{hn:{50:'#f8f4fb',100:'#ede3f4',200:'#d8c2e6',300:'#bd98d3',400:'#9a6bb5',600:'#6b3f86',700:'#52306a',800:'#41255a',900:'#2a1740'},gold:'#d4b283'}}}}
+</script>
+<style>
+body{background:#e8e2ee}
+:root{--nh:66px}@media(min-width:768px){:root{--nh:82px}body{overflow:hidden}}
+.scroll-x::-webkit-scrollbar{display:none}.scroll-x{scrollbar-width:none}
+.ph{background:linear-gradient(160deg,#7a4a98 0%,#41255a 60%,#2a1740 100%)}
+.fade{animation:f .3s ease}@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card-sh{box-shadow:0 6px 22px -8px rgba(82,48,106,.28)}
+.snap{scroll-snap-type:x mandatory}.snap>*{scroll-snap-align:center}
+</style>
+</head>
+<body class="font-sans text-hn-900">
+<div id="stage" class="min-h-screen md:flex md:items-center md:justify-center md:gap-16 md:p-6 md:bg-gradient-to-br md:from-hn-100 md:via-[#e8e2ee] md:to-hn-200">
+  <aside class="hidden xl:block w-72 text-hn-800">
+    <div class="font-brand text-7xl leading-none">هنايا</div>
+    <div class="tracking-[.4em] text-xs text-hn-600 mt-2">LINE · FASHION · EST. 2025</div>
+    <p class="mt-8 leading-8 text-hn-700">قالب تطبيق جوال لمتجر العبايات: تسوق، تصنيفات، استكشاف، سلة، وتقييمات وتفاصيل الطلبات.</p>
+    <div class="mt-6 flex gap-3 text-xl text-hn-600"><i class="fa-solid fa-mobile-screen"></i><i class="fa-brands fa-apple"></i><i class="fa-brands fa-android"></i></div>
+  </aside>
+
+  <div class="relative">
+    <!-- أزرار الجهاز الجانبية -->
+    <span class="hidden md:block absolute -left-[3px] top-32 w-[4px] h-14 rounded-l bg-[#2b2b33]"></span>
+    <span class="hidden md:block absolute -right-[3px] top-28 w-[4px] h-9 rounded-r bg-[#2b2b33]"></span>
+    <span class="hidden md:block absolute -right-[3px] top-44 w-[4px] h-16 rounded-r bg-[#2b2b33]"></span>
+
+    <div id="phone" class="relative w-full h-[100dvh] overflow-hidden bg-[#fdfbfe] flex flex-col md:w-[390px] md:h-[844px] md:rounded-[56px] md:border-[11px] md:border-[#17171c] md:ring-2 md:ring-[#3a3a44] md:shadow-[0_40px_80px_-20px_rgba(42,23,64,.55)]">
+      <div class="hidden md:block absolute top-2.5 left-1/2 -translate-x-1/2 w-[104px] h-[28px] bg-black rounded-full z-[80]"><span class="absolute right-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#1b1b2a] ring-1 ring-[#2a2a3a]"></span></div>
+      <div class="hidden md:flex shrink-0 h-[46px] bg-hn-800 text-white items-end justify-between px-8 pb-1.5 text-[13px] font-semibold z-[70]">
+        <span id="clock">9:41</span><span class="flex gap-1.5 items-center text-[12px]"><i class="fa-solid fa-signal"></i><i class="fa-solid fa-wifi"></i><i class="fa-solid fa-battery-full text-[15px]"></i></span></div>
+
+      <div id="scroller" class="flex-1 overflow-y-auto overflow-x-hidden scroll-x relative">
+        <main id="view" class="pb-48"></main>
+      </div>
+
+      <div id="buybar" class="hidden absolute inset-x-0 bg-white/95 backdrop-blur border-t border-hn-100 px-4 pt-2 pb-3 z-30" style="bottom:var(--nh)">
+        <div class="flex justify-center gap-4 text-[11px] text-hn-700 mb-2">
+          <span><i class="fa-solid fa-bolt text-gold"></i> شحن فوري</span><span><i class="fa-solid fa-circle-check text-emerald-600"></i> استبدال وارجاع</span><span><i class="fa-solid fa-box text-hn-400"></i> شحن مجاني +399</span></div>
+        <div class="flex gap-2">
+          <button onclick="openSizes()" id="sizebtn" class="flex-1 rounded-xl border border-gold text-hn-700 py-3 text-sm font-medium">اختاري المقاس <i class="fa-solid fa-chevron-down text-[10px]"></i></button>
+          <button onclick="addToCart()" class="flex-[1.4] rounded-xl bg-hn-700 text-white py-3 text-sm font-semibold active:scale-95 transition"><i class="fa-solid fa-bag-shopping ml-1"></i> أضيفي إلى السلة</button></div></div>
+
+      <nav id="nav" class="absolute bottom-0 inset-x-0 bg-white border-t border-hn-100 grid grid-cols-5 z-40 pb-[env(safe-area-inset-bottom)] md:pb-4"></nav>
+      <div class="hidden md:block absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 rounded-full bg-hn-900/80 z-[75]"></div>
+
+      <div id="toast" class="absolute top-14 inset-x-0 mx-auto w-max max-w-[90%] bg-hn-800 text-white text-sm px-4 py-2 rounded-full opacity-0 pointer-events-none transition z-[90]"></div>
+      <div id="sheet" class="hidden absolute inset-0 z-[60] bg-black/50" onclick="closeSheet(event)"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================= بيانات القالب (عدّليها) ================= */
+const IMG='https://cdn.salla.sa/dPDEBP/37925394-386c-43c3-8c73-34724ae1d3d8-562.56742179072x1000-nPQuoeJ05TTxAoE8BFKBWfZds90dnHiIrxBwxpx7.jpg';
+const BANNER='https://cdn.files.salla.network/other/1243128932/174555f8-0e66-463f-9f79-97928b3ed383-original.webp';
+const WA='https://wa.me/966506026642';
+const CATS=['عبايات سوداء','عبايات ملونة','عبايات دوام بليزرات','عبايات مناسبات','عبايات مطرزه','جلابيات','فساتين','نقابات'];
+const SIZES=[{s:50,l:0},{s:52,l:3},{s:54,l:2},{s:56,l:2},{s:58,l:3},{s:60,l:0}];
+/* لكل منتج imgs:[...] روابط صوره، وإن لم تُحدد تُستخدم IMG */
+const P=[
+ {id:1,n:'عباية ملكية بقماش كريب ملكي مزينة بكلفة',c:0,p:249.55,o:0,r:4.9,rc:41,l:'2.0K',tag:'الأكثر مبيعاً'},
+ {id:2,n:'عباية كلوش بقصة واسعة وأكمام مطرزة',c:4,p:276,o:0,r:5.0,rc:28,l:'1.2K',tag:'جديد'},
+ {id:3,n:'عباية دوام بليزر عملية ومريحة',c:2,p:229,o:299,r:4.8,rc:19,l:'640'},
+ {id:4,n:'عباية ملونة بتطريز على الصدر والأكمام',c:1,p:299.95,o:0,r:4.9,rc:33,l:'857',tag:'الأكثر مبيعاً'},
+ {id:5,n:'عباية مناسبات بتفاصيل لامعة',c:3,p:349.6,o:0,r:4.7,rc:12,l:'336'},
+ {id:6,n:'جلابية شيفون مطرزة تناسب كل الأجسام',c:5,p:299.95,o:0,r:4.8,rc:21,l:'555'},
+ {id:7,n:'فستان سهرة بقصة انسيابية',c:6,p:319,o:379,r:4.6,rc:9,l:'210'},
+ {id:8,n:'عباية سوداء بكم مطرز',c:0,p:259,o:0,r:4.9,rc:15,l:'432'}];
+let REVIEWS=[
+ {n:'شادن الحمدان',s:5,d:'قبل يومين',t:'وصلتني العبايات وطلعت تجنن والخياطة نظيفة ومرا حبيت، بعتمدكم موقعي المفضل للعبايات.',z:54,h:12,ph:1,rep:'يا هلا فيك شادن، نورتينا وبانتظار طلبك الجاي'},
+ {n:'فهد الثبيتي',s:5,d:'قبل 5 أيام',t:'رائعة جدا ومريحة وجودة الخامة عالية جدا.',z:56,h:7},
+ {n:'هند عبدالعزيز',s:5,d:'قبل أسبوع',t:'العباية خامتها جميلة وسوادها زين وكرزتها حلوة في اللبس، توصيل سريع جاتني خلال يومين.',z:52,h:9,ph:1},
+ {n:'عايشه مسرحي',s:5,d:'قبل أسبوعين',t:'ماشاء الله مريحة وأنيقة.',z:58,h:3},
+ {n:'خلود البرقي',s:4,d:'قبل 3 أسابيع',t:'روعة وجميلة لكن طلبت مقاس 55 وجتني 56، ولا لي خلق أرجعها عوافي.',z:56,h:5,rep:'نعتذر عن الإزعاج، تواصلي معنا لتعديل المقاس مجاناً'}];
+const DIST=[37,3,1,0,0];
+let QA=[
+ {q:'هل القماش ثقيل أو مناسب للصيف؟',a:'القماش كريب ملكي خفيف ومريح ويناسب كل المواسم.',d:'قبل 3 أيام'},
+ {q:'ممكن تعديل الطول؟',a:'أكيد، اكتبي الطول المطلوب في ملاحظات الطلب والتعديل مجاني.',d:'قبل أسبوع'}];
+const ORDERS=[
+ {id:'HN-20531',date:'03 نوفمبر 2026',st:2,pid:1,size:54,qty:1,pay:'مدى',addr:'الرياض، حي الملقا، شارع أنس بن مالك'},
+ {id:'HN-20418',date:'21 أكتوبر 2026',st:3,pid:4,size:56,qty:1,pay:'تمارا',addr:'الرياض، حي الملقا، شارع أنس بن مالك'}];
+const STEPS=[['تم استلام الطلب','fa-receipt'],['قيد التجهيز','fa-scissors'],['تم الشحن','fa-truck-fast'],['تم التوصيل','fa-house-circle-check']];
+
+/* ================= الحالة ================= */
+let tab='home',prev='home',cur=null,size=null,cart=[],wish=new Set([2]),catF=-1,ptab='details',rf='all',curOrder=null,rstar=5;
+const $=s=>document.querySelector(s);
+const sc=()=>$('#scroller');
+const money=n=>n.toFixed(2).replace(/\.00$/,'')+' ر.س';
+const stars=(n,c='text-[11px]')=>`<span class="${c} whitespace-nowrap">${[1,2,3,4,5].map(i=>`<i class="fa-solid fa-star ${i<=Math.round(n)?'text-amber-400':'text-gray-200'}"></i>`).join('')}</span>`;
+const heart=w=>`<i class="${w?'fa-solid text-red-500':'fa-regular'} fa-heart"></i>`;
+const pic=(p,k=0,cls='')=>{const a=p.imgs||[IMG];return `<img src="${a[k%a.length]}" referrerpolicy="no-referrer" loading="lazy" onerror="fb(this)" class="absolute inset-0 w-full h-full object-cover ${cls}" alt="">`};
+function fb(i){const d=document.createElement('div');d.className='absolute inset-0 grid place-items-center ph text-white/25';
+ d.innerHTML='<svg viewBox="0 0 100 140" class="w-1/2 h-1/2" fill="currentColor"><circle cx="50" cy="18" r="11"/><path d="M50 32c-14 0-22 8-24 22L12 128h76L74 54C72 40 64 32 50 32z"/></svg>';i.replaceWith(d)}
+function toast(t){const e=$('#toast');e.innerHTML=t;e.style.opacity=1;setTimeout(()=>e.style.opacity=0,1800)}
+function toggleWish(id,e){e&&e.stopPropagation();wish.has(id)?wish.delete(id):wish.add(id);render(true)}
+
+/* ================= مكوّنات ================= */
+const header=()=>`<header class="sticky top-0 z-20 bg-hn-700 text-white px-4 pt-[max(12px,env(safe-area-inset-top))] pb-3 flex items-center justify-between shadow-lg shadow-hn-900/20">
+ <div class="flex gap-4 text-lg w-20"><button onclick="go('cart')" class="relative"><i class="fa-solid fa-cart-shopping"></i>${cart.length?`<span class="absolute -top-2 -right-3 bg-gold text-hn-900 rounded-full text-[10px] w-4 h-4 grid place-items-center font-bold">${cart.length}</span>`:''}</button><button onclick="go('wish')"><i class="fa-regular fa-heart"></i></button></div>
+ <button onclick="go('home')" class="text-center leading-none"><div class="font-brand text-[28px]">هنايا</div><div class="text-[9px] tracking-[.35em] text-hn-200 -mt-0.5">LINE · FASHION</div></button>
+ <div class="flex gap-4 text-lg w-20 justify-end"><button><i class="fa-solid fa-magnifying-glass"></i></button><a href="${WA}"><i class="fa-brands fa-whatsapp"></i></a></div></header>`;
+const sub=(t)=>`<header class="sticky top-0 z-20 bg-white/95 backdrop-blur px-4 py-3 flex items-center gap-3 border-b border-hn-100"><button onclick="back()" class="w-9 h-9 rounded-full bg-hn-50 text-hn-700 grid place-items-center"><i class="fa-solid fa-chevron-right"></i></button><h1 class="font-bold">${t}</h1></header>`;
+
+function card(p,i){return `<div onclick="openP(${p.id})" class="rounded-2xl bg-white card-sh overflow-hidden fade cursor-pointer">
+ <div class="relative aspect-[3/4] ph">${pic(p,i)}
+  ${p.tag?`<span class="absolute top-2 right-2 bg-white/95 text-hn-700 text-[10px] font-semibold px-2 py-1 rounded-full"><i class="fa-solid fa-fire text-orange-500"></i> ${p.tag}</span>`:''}
+  <button onclick="toggleWish(${p.id},event)" class="absolute bottom-2 right-2 bg-white rounded-full px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 shadow">${heart(wish.has(p.id))}${p.l}</button></div>
+ <div class="p-3"><p class="text-[13px] font-medium truncate">${p.n}</p>
+  <div class="flex items-center justify-between mt-1.5"><div><span class="text-sm font-bold text-hn-800">${money(p.p)}</span>${p.o?`<s class="text-[11px] text-gray-400 mr-1">${p.o}</s>`:''}</div><span class="text-[11px] text-gray-500"><i class="fa-solid fa-star text-amber-400 text-[10px]"></i> ${p.r.toFixed(1)}</span></div>
+  <button onclick="quickAdd(${p.id},event)" class="mt-2.5 w-full rounded-lg bg-hn-50 text-hn-700 text-xs font-semibold py-2 active:bg-hn-100"><i class="fa-solid fa-bag-shopping"></i> أضيفي للسلة</button></div></div>`}
+const row=(list)=>`<div class="scroll-x flex gap-3 overflow-x-auto px-4 pb-4 pt-1">${list.map((p,i)=>`<div class="w-44 shrink-0">${card(p,i)}</div>`).join('')}</div>`;
+
+function reviewCard(r,p){return `<article class="rounded-2xl bg-white border border-hn-100 p-4 card-sh fade">
+ <div class="flex items-center gap-3"><span class="w-11 h-11 rounded-full bg-gradient-to-br from-hn-200 to-hn-100 text-hn-800 grid place-items-center font-bold">${r.n[0]}</span>
+  <div class="flex-1 min-w-0"><div class="flex items-center justify-between gap-2"><p class="font-semibold text-sm truncate">${r.n}</p><span class="text-[11px] text-gray-400 shrink-0">${r.d}</span></div>
+   <div class="flex items-center gap-2 mt-0.5">${stars(r.s)}<span class="text-[10px] rounded-full bg-emerald-50 text-emerald-700 px-2 py-0.5"><i class="fa-solid fa-circle-check"></i> عملية شراء مؤكدة</span></div></div></div>
+ <p class="text-[13.5px] leading-7 text-gray-700 mt-3">${r.t}</p>
+ ${r.ph?`<div class="flex gap-2 mt-3">${[0,1].map(k=>`<div class="relative w-16 h-20 rounded-lg overflow-hidden ph">${pic(p,0,k?'object-[50%_15%] scale-150':'object-[50%_40%] scale-125')}</div>`).join('')}</div>`:''}
+ ${r.z?`<p class="text-[11px] text-gray-400 mt-3"><i class="fa-solid fa-ruler"></i> المقاس المطلوب: ${r.z}</p>`:''}
+ ${r.rep?`<div class="mt-3 rounded-xl bg-hn-50 p-3 border-r-4 border-hn-400"><p class="text-[11px] font-semibold text-hn-700 mb-1"><i class="fa-solid fa-store"></i> رد هنايا لاين</p><p class="text-[12.5px] text-gray-600 leading-6">${r.rep}</p></div>`:''}
+ <button onclick="toast('شكراً لتقييمك')" class="mt-3 text-[11px] text-gray-500"><i class="fa-regular fa-thumbs-up"></i> مفيد (${r.h||0})</button></article>`}
+
+/* ================= الصفحات ================= */
+const views={
+home:()=>`${header()}
+ <div class="relative h-60 ph overflow-hidden rounded-b-[28px]"><img src="${BANNER}" referrerpolicy="no-referrer" onerror="this.remove()" class="absolute inset-0 w-full h-full object-cover" alt="">
+  <div class="absolute inset-0 bg-gradient-to-t from-hn-900/90 via-hn-900/30 to-transparent"></div>
+  <div class="absolute bottom-5 right-5 left-5 text-white"><span class="inline-block bg-gold text-hn-900 text-[10px] font-bold rounded-full px-3 py-1 mb-2">مجموعة الشتاء الجديدة</span>
+   <h2 class="font-brand text-3xl leading-tight">قطعنا مو بس تلبسينها<br>الا تعيشين فيها الهناء</h2>
+   <button onclick="go('cats')" class="mt-3 bg-white text-hn-700 text-xs font-semibold rounded-full px-5 py-2.5">اختاري عبايتك <i class="fa-solid fa-arrow-left mr-1"></i></button></div></div>
+ <div class="grid grid-cols-3 text-center text-[11px] py-4 mx-4 -mt-0 text-hn-700 divide-x divide-x-reverse divide-hn-100">
+  <div><i class="fa-solid fa-truck-fast text-gold text-lg"></i><b class="block text-[13px] mt-1">399 ر.س</b>شحن مجاني من</div>
+  <div><i class="fa-solid fa-rotate-left text-gold text-lg"></i><b class="block text-[13px] mt-1">3 أيام</b>ترجيع · 7 استبدال</div>
+  <div><i class="fa-solid fa-scissors text-gold text-lg"></i><b class="block text-[13px] mt-1">مجاناً</b>تعديل على العباية</div></div>
+ <div class="scroll-x flex gap-2 overflow-x-auto px-4 pb-2 pt-1">${CATS.map((c,i)=>`<button onclick="catF=${i};go('cats')" class="shrink-0 rounded-full bg-white text-hn-700 text-xs font-medium px-4 py-2 border border-hn-100 active:bg-hn-50">${c}</button>`).join('')}</div>
+ <section class="mt-5"><div class="flex justify-between items-center px-4 mb-2"><h3 class="font-bold text-lg">ترند الآن</h3><button onclick="go('cats')" class="text-xs text-hn-600">عرض الكل <i class="fa-solid fa-chevron-left text-[9px]"></i></button></div>${row(P.slice(0,5))}</section>
+ <section class="px-4 mt-3"><div class="flex justify-between items-center mb-3"><h3 class="font-bold text-lg">آراء العملاء</h3><span class="text-xs text-gray-500">${stars(4.9)} 4.90</span></div><div class="space-y-3">${REVIEWS.slice(0,2).map(r=>reviewCard(r,P[0])).join('')}</div></section>
+ <section class="px-4 mt-6"><div class="rounded-3xl bg-gradient-to-br from-hn-700 to-hn-900 text-white p-6 text-center"><i class="fa-solid fa-shield-halved text-gold text-2xl"></i><p class="font-semibold mt-2">متجر موثق لدى منصة الأعمال وبسجل تجاري</p>
+  <a href="${WA}" class="inline-block mt-4 bg-white text-hn-700 rounded-full text-xs font-semibold px-6 py-2.5"><i class="fa-brands fa-whatsapp"></i> تواصلي معنا</a></div></section>`,
+
+cats:()=>{const l=catF<0?P:P.filter(p=>p.c===catF);return `${header()}<div class="px-4 pt-5"><h2 class="text-xl font-bold mb-3">${catF<0?'جميع العبايات':CATS[catF]}</h2>
+ <div class="scroll-x flex gap-2 overflow-x-auto pb-3"><button onclick="catF=-1;render()" class="shrink-0 rounded-full text-xs px-4 py-2 ${catF<0?'bg-hn-700 text-white':'bg-hn-50 text-hn-700'}">الكل (${P.length})</button>${CATS.map((c,i)=>`<button onclick="catF=${i};render()" class="shrink-0 rounded-full text-xs px-4 py-2 ${catF===i?'bg-hn-700 text-white':'bg-hn-50 text-hn-700'}">${c}</button>`).join('')}</div>
+ <div class="grid grid-cols-2 gap-3">${l.map(card).join('')||'<p class="col-span-2 text-center text-gray-400 py-16">لا توجد منتجات</p>'}</div></div>`},
+
+explore:()=>`${header()}<div class="p-3"><div class="flex mx-auto w-52 bg-hn-800 text-white rounded-full text-xs overflow-hidden mb-3 p-1"><span class="flex-1 text-center py-2 rounded-full bg-hn-600">تصفح</span><span class="flex-1 text-center py-2 text-hn-200">مشاهدة</span></div>
+ <div class="grid grid-cols-2 gap-1.5">${P.map((p,i)=>`<div onclick="openP(${p.id})" class="relative aspect-[3/4] ph rounded-xl overflow-hidden">${pic(p,i,i%2?'object-[50%_15%] scale-125':'')}
+ <div class="absolute inset-x-0 bottom-0 p-2.5 pt-12 bg-gradient-to-t from-black/75 to-transparent text-white"><p class="text-[12px] truncate">${p.n}</p><div class="flex justify-between text-[11px] mt-1"><b>${money(p.p)}</b><span><i class="fa-regular fa-heart"></i> ${p.l}</span></div></div></div>`).join('')}</div></div>`,
+
+cart:()=>{const t=cart.reduce((a,c)=>a+c.p,0);return `${header()}<div class="px-4 pt-5">`+(cart.length?`<h2 class="text-xl font-bold mb-3">سلة التسوق</h2><div class="space-y-3">${cart.map((c,i)=>`<div class="flex gap-3 rounded-2xl bg-white card-sh p-2.5"><div class="relative w-20 h-24 ph rounded-xl overflow-hidden shrink-0">${pic(c)}</div><div class="flex-1 text-sm"><p class="font-medium line-clamp-2">${c.n}</p><p class="text-xs text-gray-500 mt-1">المقاس: ${c.size}</p><p class="font-bold mt-1 text-hn-800">${money(c.p)}</p></div><button onclick="cart.splice(${i},1);render(true)" class="text-gray-300 self-start p-1"><i class="fa-solid fa-xmark"></i></button></div>`).join('')}</div>
+ <div class="mt-5 rounded-2xl bg-hn-50 p-4 text-sm space-y-2"><div class="flex justify-between"><span>المجموع</span><b>${money(t)}</b></div><div class="flex justify-between"><span>الشحن</span><b>${t>=399?'مجاني':'يحسب عند الدفع'}</b></div></div>
+ <button onclick="toast('هنا الانتقال لصفحة الدفع')" class="mt-4 w-full rounded-xl bg-hn-700 text-white py-3.5 font-semibold">إتمام الطلب</button>`
+ :`<div class="text-center pt-14"><div class="w-24 h-24 rounded-full bg-hn-50 grid place-items-center mx-auto text-4xl text-hn-300"><i class="fa-solid fa-bag-shopping"></i></div><h3 class="font-bold mt-4">سلتك فارغة</h3><p class="text-sm text-gray-500 mt-1">ابدئي التسوق لإضافة منتجات جميلة</p>
+ <div class="flex gap-2 justify-center mt-6"><button onclick="go('explore')" class="rounded-xl bg-gray-100 px-6 py-3 text-sm">استكشفي</button><button onclick="go('cats')" class="rounded-xl bg-hn-700 text-white px-6 py-3 text-sm">تسوقي الآن</button></div></div><h3 class="font-bold mt-10 mb-2">الأكثر رواجاً</h3>${row(P.slice(0,4))}`)+`</div>`},
+
+wish:()=>`${sub('قائمة الأمنيات')}<div class="p-4"><div class="grid grid-cols-2 gap-3">${P.filter(p=>wish.has(p.id)).map(card).join('')||'<p class="col-span-2 text-center text-gray-400 py-16">لا توجد عناصر بعد</p>'}</div></div>`,
+
+account:()=>`<div class="bg-gradient-to-b from-hn-700 to-hn-800 text-white pt-12 pb-10 text-center rounded-b-[28px]"><div class="mx-auto w-24 h-24 rounded-full border-4 border-gold bg-hn-600 grid place-items-center text-4xl"><i class="fa-solid fa-user text-gold"></i></div>
+ <h2 class="font-bold text-lg mt-3">مرحباً بك</h2><p class="text-sm text-hn-200" dir="ltr">+966 5X XXX XXXX</p>
+ <div class="mx-auto mt-4 w-fit flex bg-white/10 rounded-full p-1 text-sm"><span class="px-5 py-1.5 rounded-full bg-white text-hn-800 font-medium">العربية</span><span class="px-5 py-1.5 text-hn-200">English</span></div></div>
+ <div class="grid grid-cols-2 gap-3 px-4 -mt-6"><button onclick="go('orders')" class="rounded-2xl bg-white card-sh py-5 text-center"><i class="fa-solid fa-receipt text-gold text-2xl"></i><p class="text-sm mt-1.5 font-medium">طلباتي</p></button><div class="rounded-2xl bg-white card-sh py-5 text-center"><i class="fa-regular fa-user text-gold text-2xl"></i><p class="text-sm mt-1.5 font-medium">حسابي</p></div></div>
+ ${[['الحساب',[['fa-regular fa-heart','قائمة الأمنيات',"go('wish')"],['fa-solid fa-location-dot','العنوان','']]],['المساعدة والدعم',[['fa-regular fa-circle-question','مركز المساعدة',''],['fa-brands fa-whatsapp','تواصلي معنا',`location.href='${WA}'`]]]].map(([h,r])=>`<h3 class="font-bold px-4 mt-6 mb-2">${h}</h3><div class="mx-4 rounded-2xl bg-white card-sh divide-y divide-hn-100">${r.map(x=>`<button onclick="${x[2]}" class="w-full flex justify-between items-center px-4 py-4 text-sm"><span><i class="${x[0]} text-gold w-6"></i> ${x[1]}</span><i class="fa-solid fa-chevron-left text-xs text-gray-300"></i></button>`).join('')}</div>`).join('')}`,
+
+orders:()=>`${sub('طلباتي')}<div class="p-4 space-y-3">${ORDERS.map((o,i)=>{const p=P.find(x=>x.id===o.pid);const done=o.st===3;return `<button onclick="openOrder(${i})" class="w-full text-right rounded-2xl bg-white card-sh p-4 fade">
+ <div class="flex justify-between items-center"><b class="text-sm">طلب #${o.id}</b><span class="text-[11px] rounded-full px-3 py-1 ${done?'bg-emerald-50 text-emerald-700':'bg-amber-50 text-amber-700'}">${STEPS[o.st][0]}</span></div>
+ <p class="text-[11px] text-gray-400 mt-0.5">${o.date}</p>
+ <div class="flex gap-3 mt-3"><div class="relative w-16 h-20 rounded-xl overflow-hidden ph shrink-0">${pic(p)}</div><div class="text-sm flex-1"><p class="line-clamp-2">${p.n}</p><p class="text-xs text-gray-500 mt-1">المقاس ${o.size} · الكمية ${o.qty}</p><p class="font-bold mt-1 text-hn-800">${money(p.p*o.qty)}</p></div><i class="fa-solid fa-chevron-left text-xs text-gray-300 self-center"></i></div></button>`}).join('')}</div>`,
+
+order:()=>{const o=curOrder,p=P.find(x=>x.id===o.pid),ship=p.p>=399?0:25,tot=p.p*o.qty+ship,done=o.st===3,rv=REVIEWS.find(r=>r.mine&&r.pid===p.id);
+ return `${sub('تفاصيل الطلب')}<div class="p-4 space-y-4 fade">
+ <div class="rounded-2xl bg-gradient-to-br from-hn-700 to-hn-900 text-white p-5"><p class="text-xs text-hn-200">رقم الطلب</p><p class="font-bold text-lg">#${o.id}</p><p class="text-xs text-hn-200 mt-1">${o.date}</p></div>
+ <div class="rounded-2xl bg-white card-sh p-5"><h3 class="font-bold mb-4">حالة الطلب</h3><ol class="relative">${STEPS.map((s,i)=>`<li class="flex gap-3 ${i<3?'pb-5':''} relative">${i<3?`<span class="absolute right-[15px] top-8 bottom-0 w-0.5 ${i<o.st?'bg-hn-600':'bg-gray-200'}"></span>`:''}
+  <span class="w-8 h-8 rounded-full grid place-items-center text-xs shrink-0 z-10 ${i<=o.st?'bg-hn-700 text-white':'bg-gray-100 text-gray-400'}"><i class="fa-solid ${s[1]}"></i></span><div class="pt-1"><p class="text-sm ${i<=o.st?'font-semibold':'text-gray-400'}">${s[0]}</p></div></li>`).join('')}</ol></div>
+ <div class="rounded-2xl bg-white card-sh p-4"><h3 class="font-bold mb-3">المنتجات</h3><div class="flex gap-3"><div class="relative w-20 h-24 rounded-xl overflow-hidden ph shrink-0">${pic(p)}</div><div class="text-sm flex-1"><p class="font-medium">${p.n}</p><p class="text-xs text-gray-500 mt-1">المقاس ${o.size} · الكمية ${o.qty}</p><p class="font-bold mt-1 text-hn-800">${money(p.p)}</p></div></div>
+  ${done?(rv?`<div class="mt-4 pt-4 border-t border-hn-100"><p class="text-xs font-semibold text-hn-700 mb-2">تقييمك لهذا المنتج</p>${reviewCard(rv,p)}</div>`:`<button onclick="openReview(${p.id})" class="mt-4 w-full rounded-xl bg-hn-50 text-hn-700 font-semibold text-sm py-3"><i class="fa-regular fa-star"></i> قيّمي المنتج وشاركينا رأيك</button>`):''}</div>
+ <div class="rounded-2xl bg-white card-sh p-4 text-sm space-y-2.5"><h3 class="font-bold mb-1">ملخص الدفع</h3>
+  <div class="flex justify-between"><span class="text-gray-500">المجموع</span><span>${money(p.p*o.qty)}</span></div><div class="flex justify-between"><span class="text-gray-500">الشحن</span><span>${ship?money(ship):'مجاني'}</span></div>
+  <div class="flex justify-between text-gray-500"><span>طريقة الدفع</span><span class="text-hn-900">${o.pay}</span></div><div class="flex justify-between pt-3 border-t border-hn-100 font-bold text-base"><span>الإجمالي</span><span class="text-hn-800">${money(tot)}</span></div></div>
+ <div class="rounded-2xl bg-white card-sh p-4 text-sm"><h3 class="font-bold mb-2">عنوان التوصيل</h3><p class="text-gray-600"><i class="fa-solid fa-location-dot text-gold ml-1"></i> ${o.addr}</p></div>
+ <a href="${WA}" class="block text-center rounded-xl border border-emerald-300 text-emerald-700 py-3 text-sm font-semibold"><i class="fa-brands fa-whatsapp"></i> تواصلي معنا بخصوص الطلب</a></div>`},
+
+product:()=>{const p=cur,w=wish.has(p.id),n=p.rc+REVIEWS.filter(r=>r.mine).length;
+ const tabs=[['details','التفاصيل'],['reviews',`التقييمات (${n})`],['qa',`الأسئلة (${QA.length})`]];
+ let body='';
+ if(ptab==='details')body=`<div class="rounded-2xl bg-white card-sh p-5 fade"><p class="text-sm leading-8 text-gray-700">عباية فاخرة بقماش كريب ملكي ناعم، قصة واسعة مريحة مع تفاصيل مزينة بكلفة على الأكمام. مناسبة للدوام والمناسبات اليومية، وخياطة نظيفة بإتقان عالي.</p>
+  <ul class="mt-4 divide-y divide-hn-100 text-sm">${[['الخامة','كريب ملكي'],['القصة','واسعة ومريحة'],['الأكمام','مزينة بكلفة'],['اللون','أسود'],['العناية','غسيل لطيف / تنظيف جاف'],['رقم المنتج','6842']].map(x=>`<li class="flex justify-between py-3"><span class="text-gray-500">${x[0]}</span><b class="font-medium">${x[1]}</b></li>`).join('')}</ul></div>`;
+ if(ptab==='reviews'){const l=REVIEWS.filter(r=>rf==='all'||(rf==='ph'&&r.ph)||(rf==='5'&&r.s===5)),tot=DIST.reduce((a,b)=>a+b,0);
+  body=`<div class="rounded-2xl bg-white card-sh p-5 fade"><div class="flex items-center gap-5"><div class="text-center"><div class="text-5xl font-bold text-hn-800 leading-none">${p.r.toFixed(2)}</div><div class="mt-2">${stars(p.r,'text-xs')}</div><p class="text-[11px] text-gray-500 mt-1">${n} تقييم</p></div>
+  <div class="flex-1 space-y-1.5">${DIST.map((c,i)=>`<div class="flex items-center gap-2 text-[11px] text-gray-500"><span class="w-3">${5-i}</span><div class="flex-1 h-2 rounded-full bg-hn-50 overflow-hidden"><div class="h-full rounded-full bg-gold" style="width:${c/tot*100}%"></div></div><span class="w-5 text-left">${c}</span></div>`).join('')}</div></div>
+  <button onclick="openReview(${p.id})" class="mt-4 w-full rounded-xl bg-hn-700 text-white text-sm font-semibold py-3"><i class="fa-regular fa-pen-to-square"></i> اكتبي تقييمك</button></div>
+  <div class="scroll-x flex gap-2 overflow-x-auto py-3">${[['all','الكل'],['ph','مع صور'],['5','5 نجوم']].map(f=>`<button onclick="rf='${f[0]}';render(true)" class="shrink-0 rounded-full text-xs px-4 py-2 ${rf===f[0]?'bg-hn-700 text-white':'bg-white text-hn-700 border border-hn-100'}">${f[1]}</button>`).join('')}</div>
+  <div class="space-y-3">${l.map(r=>reviewCard(r,p)).join('')||'<p class="text-center text-gray-400 py-10 text-sm">لا توجد تقييمات</p>'}</div>`}
+ if(ptab==='qa')body=`<div class="space-y-3 fade">${QA.map(x=>`<div class="rounded-2xl bg-white card-sh p-4"><p class="font-semibold text-sm"><i class="fa-regular fa-comment text-hn-400 ml-1"></i> ${x.q}</p><div class="mt-3 rounded-xl bg-hn-50 p-3 text-[13px] leading-7 text-gray-700"><b class="text-hn-700 text-xs block mb-1"><i class="fa-solid fa-store"></i> هنايا لاين · ${x.d}</b>${x.a}</div></div>`).join('')}
+  <button onclick="openAsk()" class="w-full rounded-xl border border-hn-200 text-hn-700 text-sm font-semibold py-3"><i class="fa-regular fa-circle-question"></i> اسألي عن العباية</button></div>`;
+ return `<div class="relative aspect-[3/4] ph"><div id="gal" onscroll="galScroll(this)" class="scroll-x snap absolute inset-0 flex overflow-x-auto">${[0,1,2].map(k=>`<div class="relative w-full h-full shrink-0">${pic(p,0,k==1?'object-[50%_15%] scale-125':k==2?'object-[50%_70%] scale-125':'')}</div>`).join('')}</div>
+  <button onclick="back()" class="absolute top-[max(16px,env(safe-area-inset-top))] right-4 w-10 h-10 rounded-full bg-white/95 grid place-items-center text-hn-700 shadow"><i class="fa-solid fa-chevron-right"></i></button>
+  <button onclick="navigator.share&&navigator.share({title:'${p.n}'})" class="absolute top-[max(16px,env(safe-area-inset-top))] left-4 w-10 h-10 rounded-full bg-white/95 grid place-items-center text-hn-700 shadow"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+  <span id="gcount" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/55 text-white text-xs px-3 py-1 rounded-full">1 / 3</span></div>
+ <div class="px-4 pt-4 fade"><div class="flex items-start gap-3"><button onclick="toggleWish(${p.id})" class="rounded-full border border-hn-100 bg-white px-3 py-2 text-xs flex gap-1.5 items-center shrink-0">${heart(w)} ${p.l}</button><h1 class="flex-1 font-bold text-[17px] leading-snug">${p.n}</h1></div>
+ <div class="mt-4 rounded-2xl bg-white card-sh border border-hn-100 p-4"><button onclick="ptab='reviews';render(true);$('#tabs').scrollIntoView({behavior:'smooth'})" class="text-sm text-gray-600">${stars(p.r,'text-xs')} <b>${p.r.toFixed(2)}</b> (${n})</button>
+  <div class="flex items-baseline gap-2 mt-1"><span class="text-3xl font-bold text-hn-800">${money(p.p)}</span>${p.o?`<s class="text-gray-400">${p.o}</s>`:''}</div>
+  <div class="mt-2 inline-block rounded-lg bg-hn-100 text-hn-800 text-xs px-3 py-1.5"><i class="fa-solid fa-gift"></i> استرجعي 25 ر.س كاش باك</div>
+  <p class="text-xs text-gray-500 mt-3 pt-3 border-t border-hn-100">قسطيها على 4 دفعات — ${(p.p/4).toFixed(2)} ر.س/دفعة &nbsp;<b class="text-hn-700">تمارا · tabby</b></p></div>
+ <div class="mt-3 rounded-2xl bg-white card-sh p-4 flex justify-between items-center"><div class="text-sm"><p class="text-xs text-gray-500">مدة التوصيل التقديرية</p><b>الرياض 1 - 3 أيام</b></div><span class="text-2xl text-hn-400"><i class="fa-solid fa-box-open"></i></span></div>
+ <div class="mt-3 rounded-2xl bg-gold/15 border border-gold/40 p-4 text-sm"><span class="bg-hn-700 text-white text-[10px] rounded px-2 py-0.5"><i class="fa-solid fa-bolt"></i> عرض محدود</span><p class="font-bold mt-2">خصم 25% على القطعة الثانية</p><p class="text-xs text-gray-500">تطبق تلقائياً عند الإضافة للسلة</p></div>
+ <div class="mt-3 rounded-2xl bg-white card-sh border-2 p-4 ${size?'border-hn-100':'border-red-300 bg-red-50/40'}"><div class="flex justify-between mb-3"><b>المقاس</b><span class="text-xs text-gold">دليل المقاسات</span></div>
+  ${size?'':'<p class="text-xs text-red-600 mb-3"><i class="fa-solid fa-circle-exclamation"></i> الرجاء اختيار المقاس المناسب</p>'}
+  <div class="grid grid-cols-6 gap-2">${SIZES.map(z=>`<button ${z.l?'':'disabled'} onclick="pick(${z.s})" class="rounded-xl border py-2 text-sm font-semibold ${size===z.s?'bg-hn-700 text-white border-hn-700':z.l?'bg-white border-hn-100':'border-hn-50 text-gray-300'}">${z.s}${z.l&&z.l<4?`<span class="block text-[9px] font-normal ${size===z.s?'text-hn-100':'text-amber-700'}">باقي ${z.l}</span>`:''}</button>`).join('')}</div></div>
+ <div class="mt-3 rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-sm"><b><i class="fa-solid fa-shield-halved text-emerald-600 ml-1"></i>تسوقي بثقة</b><p class="text-xs text-gray-500 mt-0.5">3 أيام ترجيع، 7 أيام استبدال، ودون أي سؤال</p></div>
+ <a href="${WA}" class="mt-3 block rounded-2xl bg-emerald-50 border border-emerald-200 p-4 text-sm"><i class="fa-brands fa-whatsapp text-emerald-600 text-lg ml-1"></i> عندك سؤال عن العباية؟ راسلينا وراح نرد خلال دقائق</a>
+ <div id="tabs" class="mt-6 flex border-b border-hn-100 sticky top-0 bg-[#fdfbfe] z-10">${tabs.map(t=>`<button onclick="ptab='${t[0]}';render(true)" class="flex-1 py-3 text-sm ${ptab===t[0]?'font-bold text-hn-700 border-b-2 border-hn-700':'text-gray-400'}">${t[1]}</button>`).join('')}</div>
+ <div class="mt-4">${body}</div>
+ <h3 class="font-bold text-lg mt-8 mb-1">قد يعجبك أيضاً</h3></div><div>${row(P.filter(x=>x.id!==p.id).slice(0,5))}</div>`}
+};
+
+/* ================= التنقل والتحكم ================= */
+const TABS=[['home','fa-house','الرئيسية'],['cats','fa-table-cells-large','التصنيفات'],['explore','fa-circle-play','استكشاف'],['cart','fa-bag-shopping','السلة'],['account','fa-user','حسابي']];
+function render(keep){const y=sc().scrollTop;const isP=tab==='product';
+ $('#view').innerHTML=views[tab]();$('#buybar').classList.toggle('hidden',!isP);
+ const act=['product','order','orders','wish'].includes(tab)?prev:tab;
+ $('#nav').innerHTML=TABS.map(t=>{const on=act===t[0]||(tab==='orders'&&t[0]==='account');return `<button onclick="go('${t[0]}')" class="py-2 text-center ${on?'text-hn-700 font-bold':'text-gray-400'}"><span class="block mx-auto w-12 rounded-full py-1 text-base ${on?'bg-hn-100':''}"><i class="fa-solid ${t[1]}"></i></span><span class="text-[10px]">${t[2]}</span></button>`}).join('');
+ const sb=$('#sizebtn');if(sb)sb.innerHTML=(size?'المقاس '+size:'اختاري المقاس')+' <i class="fa-solid fa-chevron-down text-[10px]"></i>';
+ if(keep)sc().scrollTo(0,y)}
+function go(t){if(['home','cats','explore','cart','account'].includes(t))prev=t;tab=t;if(t!=='cats'&&t!=='home')catF=-1;sc().scrollTo(0,0);render()}
+function openP(id){if(!['product'].includes(tab))prev=['order','orders','wish'].includes(tab)?prev:tab;cur=P.find(p=>p.id===id);size=null;ptab='details';rf='all';tab='product';sc().scrollTo(0,0);render()}
+function openOrder(i){curOrder=ORDERS[i];tab='order';sc().scrollTo(0,0);render()}
+function back(){tab=tab==='order'?'orders':tab==='orders'?'account':prev;sc().scrollTo(0,0);render()}
+function galScroll(e){const i=Math.round(Math.abs(e.scrollLeft)/e.clientWidth)+1;$('#gcount').textContent=i+' / 3'}
+function pick(s){size=s;closeSheet();render(true)}
+function addToCart(){if(!size){openSizes();return}cart.push({...cur,size});toast('<i class="fa-solid fa-circle-check ml-1"></i> تمت الإضافة إلى السلة');render(true)}
+function quickAdd(id,e){e.stopPropagation();openP(id);setTimeout(openSizes,200)}
+function sheet(h){const s=$('#sheet');s.classList.remove('hidden');s.innerHTML=`<div class="absolute bottom-0 inset-x-0 bg-white rounded-t-3xl p-5 pb-8 fade max-h-[80%] overflow-y-auto"><div class="w-10 h-1 bg-gray-200 rounded mx-auto mb-4"></div>${h}</div>`}
+function closeSheet(e){if(!e||e.target.id==='sheet')$('#sheet').classList.add('hidden')}
+function openSizes(){sheet(`<h3 class="font-bold mb-3">اختاري المقاس</h3><div class="grid grid-cols-3 gap-3">${SIZES.map(z=>`<button ${z.l?'':'disabled'} onclick="pick(${z.s});setTimeout(addToCart,60)" class="rounded-xl border py-3 font-semibold ${z.l?'border-hn-200 text-hn-700':'border-gray-100 text-gray-300 line-through'}">${z.s}</button>`).join('')}</div>`)}
+function openReview(id){rstar=5;sheet(`<h3 class="font-bold mb-1">قيّمي المنتج</h3><p class="text-xs text-gray-500 mb-4">${P.find(p=>p.id===id).n}</p>
+ <div id="rstars" class="flex justify-center gap-2 text-3xl mb-4"></div><textarea id="rtxt" rows="4" placeholder="شاركينا تجربتك مع العباية: الخامة، المقاس، الخياطة..." class="w-full rounded-xl border border-hn-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-hn-400"></textarea>
+ <button onclick="submitReview(${id})" class="mt-4 w-full rounded-xl bg-hn-700 text-white font-semibold py-3">إرسال التقييم</button>`);drawStars()}
+function drawStars(){$('#rstars').innerHTML=[1,2,3,4,5].map(i=>`<button onclick="rstar=${i};drawStars()"><i class="fa-solid fa-star ${i<=rstar?'text-amber-400':'text-gray-200'}"></i></button>`).join('')}
+function submitReview(id){const t=$('#rtxt').value.trim();if(!t){toast('اكتبي تعليقك أولاً');return}
+ REVIEWS.unshift({n:'أنتِ',s:rstar,d:'الآن',t,h:0,mine:1,pid:id});closeSheet();toast('<i class="fa-solid fa-circle-check ml-1"></i> شكراً، تم نشر تقييمك');if(tab==='product'){ptab='reviews'}render(true)}
+function openAsk(){sheet(`<h3 class="font-bold mb-3">اسألي عن العباية</h3><textarea id="qtxt" rows="3" placeholder="اكتبي سؤالك..." class="w-full rounded-xl border border-hn-200 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-hn-400"></textarea><button onclick="const v=$('#qtxt').value.trim();if(v){QA.unshift({q:v,a:'شكراً لسؤالك، سنرد عليك خلال دقائق.',d:'الآن'});closeSheet();render(true)}" class="mt-4 w-full rounded-xl bg-hn-700 text-white font-semibold py-3">إرسال السؤال</button>`)}
+function fit(){const ph=$('#phone');if(innerWidth<768){ph.style.zoom=1;return}ph.style.zoom=Math.min(1,(innerHeight-32)/844)}
+function clock(){const d=new Date();$('#clock').textContent=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:false})}
+addEventListener('resize',fit);fit();clock();setInterval(clock,30000);
+render();
+</script>
+</body>
+</html>
